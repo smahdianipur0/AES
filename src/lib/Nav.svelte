@@ -20,9 +20,7 @@ const drawerStore = getDrawerStore();
 <svelte:head>{@html '<script>(' + autoModeWatcher.toString() + ')();</script>'}</svelte:head>
 
 
-<!-- <AppShell>...</AppShell> -->
 
-<!-- #################################################################################################### -->
 <nav style="display: grid; justify-content: center; " >
 
 
@@ -45,14 +43,11 @@ const drawerStore = getDrawerStore();
 
 
 
-
 </nav>
 
 
-<!-- #################################################################################################### -->
 
 <style>
-
 
 	nav {
 		display: flex;
@@ -60,13 +55,7 @@ const drawerStore = getDrawerStore();
 		height: 50px;
 		width: 100%;
 		padding: 0 32px;
-		
+		}
 
-	
-		
-	}
-
-
- 
 	
 </style>
