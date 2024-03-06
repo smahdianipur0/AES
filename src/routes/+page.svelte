@@ -88,34 +88,69 @@ let tabSet: number = 1;
 <br>
 
 <div  style="display: grid; justify-content: center;">
-<div class="card p-4 variant-soft m-2" style="width: 340px; ">
+<div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px; ">
 <p >
   
   <Toast />
 
-  &nbsp;&nbsp;&nbsp;
-  <input class="input m-1"style="width: 200px " placeholder="Key" bind:value={Key} /> 
+<div style="position: relative; width: 300px;">
+  <input class="input m-1" style="
+    width: calc(100% - 1px);
+    background: rgba(75,75,75,0.01);
+    -webkit-backdrop-filter: blur(23px);
+    backdrop-filter: blur(23px);
+    padding-right: 30px; 
+  " placeholder="Key" bind:value={Key} />
+  <span style="
+    position: absolute;
+    right: 5px; 
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999; 
+    pointer-events: none; 
+  ">
   {#if Key}
-  &nbsp;&nbsp; {Key_count}
-  {/if}
+{Key_count}
+{/if}
+</span>
+</div>
   
-</p>
 
 <p>
-  &nbsp;&nbsp;&nbsp;
-  <input class="input m-1 "style="width: 200px " placeholder="IV" bind:value={IV} />
+
+
+ <div style="position: relative; width: 300px;">
+  <input class="input m-1" style="
+    width: calc(100% - 1px);
+    background: rgba(75,75,75,0.01);
+    -webkit-backdrop-filter: blur(23px);
+    backdrop-filter: blur(23px);
+    padding-right: 30px; 
+  " placeholder="IV" bind:value={IV} />
+   <span style="
+    position: absolute;
+    right: 5px; 
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999; 
+    pointer-events: none;
+  ">
   {#if IV}
-  &nbsp;&nbsp; {IV_count}
+  {IV_count}
   {/if}
-</p>
-
-</div>
-
-
+  </span>
+  </div>
+  </div>
 
 
 
-<div class="card p-4 variant-soft m-2" style="width: 340px; ">
+
+
+
+
+
+
+<div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px; ">
 <TabGroup justify="justify-center">
   
   <Tab bind:group={tabSet} name="Encrypt" value={1}>
@@ -133,7 +168,10 @@ let tabSet: number = 1;
    
     {#if tabSet === 1}
       <form style="display: grid; justify-content: center;">
-      <textarea class="textarea m-2" rows="2" style="width: 250px "
+      <textarea class="textarea m-2 shadow-xl" rows="2" style="width: 300px;
+         background: rgba(75,75,75,0.01);
+         -webkit-backdrop-filter: blur(23px);
+         backdrop-filter: blur(23px); "
         id="text_0"
         bind:value="{plain_text}"
         placeholder="Plain Text"/>
@@ -142,12 +180,13 @@ let tabSet: number = 1;
 
     {#if Key && IV}
     <form style="display: grid; justify-content: center;">
-    <textarea class="textarea m-2" rows="2" style="width: 250px; "value="{result_e}"
+    <textarea class="textarea m-2" rows="2" style="width: 300px;
+    background-color: rgba(100, 100, 100, 0.05); "value="{result_e}"
     title="Input (readonly)" type="text"   readonly="true" tabindex="-1" />
      </form>
      
      <div style="display: grid; justify-content: center;">
-     <div class="btn-group bg-gradient-to-br variant-gradient-primary-secondary">
+     <div class="btn-group variant-glass-primary  m-2">
     
     <button type="button"  use:clipboard={result_e} on:click={() => toastStore.trigger(t)}
     disabled={!isValid(result_e)}>Copy</button>
@@ -173,7 +212,10 @@ let tabSet: number = 1;
 
 
     <form style="display: grid; justify-content: center;">
-      <textarea class="textarea m-2" rows="2" style="width: 250px "
+      <textarea class="textarea m-2 shadow-xl" rows="2" style="width: 300px;
+        background: rgba(75,75,75,0.01);
+       -webkit-backdrop-filter: blur(23px);
+        backdrop-filter: blur(23px); "
         id="text_1"
         bind:value="{cipher_text}"
         placeholder="Cipher Text"/>
@@ -182,12 +224,13 @@ let tabSet: number = 1;
     {#if Key && IV}
     <form style="display: grid; justify-content: center;">
 
-    <textarea class="textarea m-2" rows="2" style="width: 250px" value="{result_d}"
+    <textarea class="textarea m-2 " rows="2" style="width: 300px;
+    background-color: rgba(100, 100, 100, 0.05);" value="{result_d}"
     title="Input (readonly)" type="text"  readonly="true" tabindex="-1" />
     </form>
 
      <div style="display: grid; justify-content: center;">
-    <div class="btn-group bg-gradient-to-br variant-gradient-primary-secondary">
+    <div class="btn-group variant-glass-primary m-2">
     <button type="button"  use:clipboard={result_d} on:click={() => toastStore.trigger(t)}
     disabled={!isValid(result_d)}>Copy</button>
 
@@ -216,3 +259,9 @@ let tabSet: number = 1;
 
 
 </div>
+
+<style>
+  
+
+
+</style>

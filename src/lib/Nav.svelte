@@ -2,16 +2,13 @@
 
 
 import { autoModeWatcher } from '@skeletonlabs/skeleton';
-
 import { Drawer, getDrawerStore } from '@skeletonlabs/skeleton';
-import type { DrawerSettings, DrawerStore } from '@skeletonlabs/skeleton';
 import { initializeStores } from '@skeletonlabs/skeleton';
 
 initializeStores();
 const drawerStore = getDrawerStore();
 
 
-	// Initializations:
 	const links = [
 		{ route: '/', name: 'Encrypt / Decrypt' },
 		{ route: '/about', name: 'About' },
@@ -26,7 +23,7 @@ const drawerStore = getDrawerStore();
 <!-- <AppShell>...</AppShell> -->
 
 <!-- #################################################################################################### -->
-<nav style="display: grid; justify-content: center ; " >
+<nav style="display: grid; justify-content: center; " >
 
 
 	<Drawer position="left">
@@ -37,8 +34,6 @@ const drawerStore = getDrawerStore();
 		<a href="/about"on:click={() => drawerStore.close()}> <br>&nbsp;&nbsp About</a>
 		{/if}
 	</Drawer>
-	
-
 	
 	
 	<button  on:click={() => drawerStore.open({ id: 'example-1', width: 'w-[200px] md:w-[320px]',
@@ -68,10 +63,7 @@ const drawerStore = getDrawerStore();
 		
 
 	
-		background: linear-gradient(#1e88e5, #9291dc);
 		
-
-		border-bottom: 0px solid rgba(34,40,49,0.3);
 	}
 
 
