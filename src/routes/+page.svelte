@@ -2,16 +2,17 @@
 
 	import { encrypt } from "$lib/pkg/rust_lib";
 	import { decrypt } from "$lib/pkg/rust_lib";
-  import {count_characters} from "$lib/pkg/rust_lib";
+  import { count_characters} from "$lib/pkg/rust_lib";
   import { QRCodeImage } from "svelte-qrcode-image";
   
   import { autoModeWatcher } from '@skeletonlabs/skeleton';
-  import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
   import { clipboard } from '@skeletonlabs/skeleton';
   import { Toast, getToastStore } from '@skeletonlabs/skeleton';
-  import type { ToastSettings, ToastStore } from '@skeletonlabs/skeleton';
   import { initializeStores } from '@skeletonlabs/skeleton';
+  import type { ToastSettings } from '@skeletonlabs/skeleton';
+  import { TabGroup, Tab } from '@skeletonlabs/skeleton';
   
+let tabSet: number = 1;
 
   initializeStores();
   const toastStore = getToastStore();
@@ -87,7 +88,7 @@
 <br>
 
 <div  style="display: grid; justify-content: center;">
-<div class="card p-4" style="width: 340px; ">
+<div class="card p-4 variant-soft m-2" style="width: 340px; ">
 <p >
   
   <Toast />
@@ -110,21 +111,29 @@
 
 </div>
 
-<br>
 
 
-<div class="card p-4" style="width: 340px; ">
 
 
-<Accordion>
-  <AccordionItem >
-    
-  <svelte:fragment slot="summary">Encrypt</svelte:fragment>
-  <svelte:fragment slot="content" >
+<div class="card p-4 variant-soft m-2" style="width: 340px; ">
+<TabGroup justify="justify-center">
   
-  
-    <form style="display: grid; justify-content: center;">
-      <textarea class="textarea" rows="2" style="width: 250px "
+  <Tab bind:group={tabSet} name="Encrypt" value={1}>
+
+  Encrypt
+
+</Tab>
+  <Tab bind:group={tabSet} name="Decrypt" value={2}>
+
+  Decrypt
+
+</Tab>
+  <!-- Tab Panels --->
+  <svelte:fragment slot="panel">
+   
+    {#if tabSet === 1}
+      <form style="display: grid; justify-content: center;">
+      <textarea class="textarea m-2" rows="2" style="width: 250px "
         id="text_0"
         bind:value="{plain_text}"
         placeholder="Plain Text"/>
@@ -133,12 +142,13 @@
 
     {#if Key && IV}
     <form style="display: grid; justify-content: center;">
-    <textarea class="textarea" rows="2" style="width: 250px; "value="{result_e}"
+    <textarea class="textarea m-2" rows="2" style="width: 250px; "value="{result_e}"
     title="Input (readonly)" type="text"   readonly="true" tabindex="-1" />
      </form>
+     
      <div style="display: grid; justify-content: center;">
      <div class="btn-group bg-gradient-to-br variant-gradient-primary-secondary">
-
+    
     <button type="button"  use:clipboard={result_e} on:click={() => toastStore.trigger(t)}
     disabled={!isValid(result_e)}>Copy</button>
     
@@ -148,27 +158,22 @@
     </button>
   </div>
 </div>
+<br>
     {#if showQR_e && isValid(result_e)}
       <p style="display: grid; justify-content: center;">
       <QRCodeImage text={result_e} width={160} height={160} margin={1} />
     </p>
     {/if}
   {:else}
-    <p style="display: grid; justify-content: center;" >Please enter a key and an IV first.</p>
+    <p style="display: grid; justify-content: center;" >Please enter a key and an IV.</p>
+
+
   {/if}
+    {:else if tabSet === 2}
 
-  </svelte:fragment>
 
-  </AccordionItem>
-
-  <AccordionItem>
-  <svelte:fragment slot="summary">Decrypt</svelte:fragment>
-  <svelte:fragment slot="content">
-  
-
-  
     <form style="display: grid; justify-content: center;">
-      <textarea class="textarea" rows="2" style="width: 250px "
+      <textarea class="textarea m-2" rows="2" style="width: 250px "
         id="text_1"
         bind:value="{cipher_text}"
         placeholder="Cipher Text"/>
@@ -177,7 +182,7 @@
     {#if Key && IV}
     <form style="display: grid; justify-content: center;">
 
-    <textarea class="textarea" rows="2" style="width: 250px" value="{result_d}"
+    <textarea class="textarea m-2" rows="2" style="width: 250px" value="{result_d}"
     title="Input (readonly)" type="text"  readonly="true" tabindex="-1" />
     </form>
 
@@ -192,29 +197,22 @@
     </button>
   </div>
      </div>
+     <br>
     {#if showQR_d && isValid(result_d)}
     <p style="display: grid; justify-content: center;">
       <QRCodeImage text={result_d} width={160} height={160} margin={1} />
     </p>
     {/if}
   {:else}
-    <p style="display: grid; justify-content: center;">Please enter a key and an IV first.</p>
+    <p style="display: grid; justify-content: center;">Please enter a key and an IV.</p>
   {/if}
 
-  
+
+
+    {/if}
   </svelte:fragment>
-  </AccordionItem>
-</Accordion>
+</TabGroup>
 </div>
 
 
 </div>
-
-
-
-<style>
-  p span {
-    display: inline-block;
-  }
-</style>
-
