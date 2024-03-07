@@ -15,13 +15,15 @@ const drawerStore = getDrawerStore();
 		{ route: '/qrcode', name: 'QR code Generator' }
 	];
 
+	 import { title } from '$lib/titleStore';
+
 </script>
 
 <svelte:head>{@html '<script>(' + autoModeWatcher.toString() + ')();</script>'}</svelte:head>
 
 
 
-<nav style="display: grid; justify-content: center; " >
+<nav style="display: flex; justify-content: space-between; align-items: center; " >
 
 
 	<Drawer position="left">
@@ -34,14 +36,18 @@ const drawerStore = getDrawerStore();
 	</Drawer>
 	
 	
-	<button  on:click={() => drawerStore.open({ id: 'example-1', width: 'w-[200px] md:w-[320px]',
-		padding: 'p-4',
-		rounded: 'rounded-xl', })}
-		>
-    Menu
+	 <button on:click={() => drawerStore.open({ id: 'example-1', width: 'w-[200px] md:w-[320px]', padding: 'p-4', rounded: 'rounded-xl', })}>
+    <!-- Menu icon lines -->
+    <div></div>
+    <div></div>
+    <div></div>
   </button>
 
+  <span style="flex-grow: 1; text-align: center; display: block; font-weight: bold; font-size: 18px;"
+    class="bg-gradient-to-br from-cyan-500 to-purple-700 bg-clip-text 
+    text-transparent box-decoration-clone">{$title}</span>
 
+  
 
 </nav>
 
@@ -52,10 +58,18 @@ const drawerStore = getDrawerStore();
 	nav {
 		display: flex;
 		align-items: center;
-		height: 50px;
+		height: 60px;
 		width: 100%;
 		padding: 0 32px;
 		}
 
-	
+	div {
+  width: 15px;
+  height: 2px;
+  background-color: white;
+  margin: 3px 0;
+}
+
+
+
 </style>

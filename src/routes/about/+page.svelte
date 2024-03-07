@@ -1,16 +1,13 @@
 <script lang="ts">
 
-	// Imports:
+	
 	import { onMount } from 'svelte';
-
-
-	// Initializations & Exports:
-	// :3
-
 	onMount(() => {
-		// :3
+
 	});
 	
+	import { title } from '$lib/titleStore';
+ 	 title.set('About');
 </script>
 
 
@@ -23,12 +20,7 @@
 <section>
 	<span>
 		
-		<h1 class="h3" >
-			<span style="display: grid; justify-content: center;"
-			class="bg-gradient-to-br from-blue-500 to-purple-300 bg-clip-text 
-			text-transparent box-decoration-clone">About </span>
-		</h1>
-		<br>
+		
 		<span style="display: grid; justify-content: center ; " >
 		Encrypt / Decryptg template :  <a class="anchor" href=" https://asecuritysite.com/">asecuritysite</a>
 		<br>

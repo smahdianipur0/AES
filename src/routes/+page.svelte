@@ -11,6 +11,10 @@
   import { initializeStores } from '@skeletonlabs/skeleton';
   import type { ToastSettings } from '@skeletonlabs/skeleton';
   import { TabGroup, Tab } from '@skeletonlabs/skeleton';
+
+
+  import { title } from '$lib/titleStore';
+  title.set('Encrypt / Decrypt');
   
 let tabSet: number = 1;
 
@@ -79,13 +83,7 @@ let tabSet: number = 1;
 <svelte:head>{@html '<script>(' + autoModeWatcher.toString() + ')();</script>'}</svelte:head>
 
 
-<h1 class="h3" >
-	<span style="display: grid; justify-content: center;"
-  class="bg-gradient-to-br from-blue-500 to-purple-300 bg-clip-text 
-  text-transparent box-decoration-clone">Encrypt / Decrypt </span>
-</h1>
 
-<br>
 
 <div  style="display: grid; justify-content: center;">
 <div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px; ">
@@ -106,7 +104,7 @@ let tabSet: number = 1;
     right: 5px; 
     top: 50%;
     transform: translateY(-50%);
-    color: #999; 
+    color: #777; 
     pointer-events: none; 
   ">
   {#if Key}
@@ -120,7 +118,7 @@ let tabSet: number = 1;
 
 
  <div style="position: relative; width: 300px;">
-  <input class="input m-1" style="
+  <input class="input m-1 shadow-lg" style="
     width: calc(100% - 1px);
     background: rgba(75,75,75,0.01);
     -webkit-backdrop-filter: blur(23px);
@@ -132,9 +130,9 @@ let tabSet: number = 1;
     right: 5px; 
     top: 50%;
     transform: translateY(-50%);
-    color: #999; 
-    pointer-events: none;
-  ">
+    color: #777; 
+    pointer-events: none;">
+
   {#if IV}
   {IV_count}
   {/if}
@@ -180,10 +178,10 @@ let tabSet: number = 1;
 
     {#if Key && IV}
     <form style="display: grid; justify-content: center;">
-    <textarea class="textarea m-2" rows="2" style="width: 300px;
-    background-color: rgba(100, 100, 100, 0.05); "value="{result_e}"
-    title="Input (readonly)" type="text"   readonly="true" tabindex="-1" />
-     </form>
+    <textarea class="textarea m-1" rows="2" style="width: 300px;
+    background-color: rgba(1, 1, 1, 0.05); "value="{result_e}"
+    title="Input (readonly)" type="text" readonly="true" tabindex="-1" />
+    </form>
      
      <div style="display: grid; justify-content: center;">
      <div class="btn-group variant-glass-primary  m-2">
@@ -224,8 +222,8 @@ let tabSet: number = 1;
     {#if Key && IV}
     <form style="display: grid; justify-content: center;">
 
-    <textarea class="textarea m-2 " rows="2" style="width: 300px;
-    background-color: rgba(100, 100, 100, 0.05);" value="{result_d}"
+    <textarea class="textarea m-1 " rows="2" style="width: 300px;
+    background-color: rgba(1, 1, 1, 0.05);" value="{result_d}"
     title="Input (readonly)" type="text"  readonly="true" tabindex="-1" />
     </form>
 
@@ -256,12 +254,19 @@ let tabSet: number = 1;
   </svelte:fragment>
 </TabGroup>
 </div>
-
-
 </div>
 
+
+
 <style>
-  
+
+ .input.m-1:not(:focus) {
+  border-color: #1f1f29 !important; 
+}
+ 
+ .textarea.m-2:not(:focus) {
+  border-color: #1f1f29 !important; 
+}
 
 
 </style>

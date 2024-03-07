@@ -13,24 +13,24 @@
     );
 	}
 
+import { title } from '$lib/titleStore';
+  title.set('QR Code Generator');
 	
 </script>
 
 <svelte:head>{@html '<script>(' + autoModeWatcher.toString() + ')();</script>'}</svelte:head>
 
 
-<h1 class="h3" >
-	<span style="display: grid; justify-content: center;"
-  class="bg-gradient-to-br from-blue-500 to-purple-300 bg-clip-text 
-  text-transparent box-decoration-clone">QR Code Generator </span>
-</h1>
-<br>
+
 
 <div style="display: grid; justify-content: center;">
-<div class="card p-4" style="width: 340px; ">
+<div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px; ">
 
 	<form style="display: grid; justify-content: center;">
-		<textarea class="textarea" rows="2" style="width: 250px "
+		<textarea class="textarea m-2 shadow-xl" rows="2" style="width: 300px;
+         background: rgba(75,75,75,0.01);
+         -webkit-backdrop-filter: blur(23px);
+         backdrop-filter: blur(23px); "
 			id="text_0"
 			bind:value="{tex}"
 			placeholder="Text"/>
@@ -52,6 +52,9 @@
 
 <style>
 
+ .textarea.m-2:not(:focus) {
+  border-color: #1f1f29 !important; 
+}
 	
 	
 </style>
