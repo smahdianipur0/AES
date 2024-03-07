@@ -12,7 +12,6 @@
   import type { ToastSettings } from '@skeletonlabs/skeleton';
   import { TabGroup, Tab } from '@skeletonlabs/skeleton';
 
-
   import { title } from '$lib/titleStore';
   title.set('Encrypt / Decrypt');
   
@@ -23,6 +22,8 @@ let tabSet: number = 1;
   
   const t: ToastSettings = {
 	  message: 'Copied to Clipboard',
+    background: 'variant-glass-primary',
+    hideDismiss: true,
 	  timeout: 1500
     };
   
@@ -89,7 +90,7 @@ let tabSet: number = 1;
 <div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px; ">
 <p >
   
-  <Toast />
+  
 
 <div style="position: relative; width: 300px;">
   <input class="input m-1" style="
@@ -149,6 +150,7 @@ let tabSet: number = 1;
 
 
 <div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px; ">
+  <Toast/>
 <TabGroup justify="justify-center">
   
   <Tab bind:group={tabSet} name="Encrypt" value={1}>
