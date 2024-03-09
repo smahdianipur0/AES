@@ -36,7 +36,8 @@ const drawerStore = getDrawerStore();
 	</Drawer>
 	
 	
-	 <button on:click={() => drawerStore.open({ id: 'example-1', width: 'w-[200px] md:w-[320px]', padding: 'p-4', rounded: 'rounded-xl', })}>
+	
+	 <button  title="Menu" 	on:click={() => drawerStore.open({ id: 'example-1', width: 'w-[200px] md:w-[320px]', padding: 'p-4', rounded: 'rounded-xl', })}>
     <!-- Menu icon lines -->
     <div></div>
     <div></div>
@@ -47,7 +48,7 @@ const drawerStore = getDrawerStore();
     class="bg-gradient-to-br from-cyan-500 to-purple-700 bg-clip-text 
     text-transparent box-decoration-clone">{$title}</span>
 
-  
+  <title></title>
 
 </nav>
 
