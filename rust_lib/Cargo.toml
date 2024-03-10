@@ -16,4 +16,7 @@ wasm-bindgen = "0.2.91"
 base64 = "0.21.7"
 aes = "0.8.3"
 ofb = "0.6.1"
+random_word = { version = "0.4.3", features = ["en"] }
+rand = "0.9.0-alpha.0"
+getrandom = { version = "0.2", features = ["js"] }
 

@@ -7,6 +7,11 @@ use aes::Aes128;
 use ofb::Ofb;
 use ofb::cipher::{KeyIvInit, StreamCipher};
 
+use random_word::{all_len, Lang};
+use rand::Rng;
+use rand::seq::IndexedRandom;
+use rand::prelude::SliceRandom;
+
 
 type AesOfb = Ofb<Aes128>;
 
@@ -73,5 +78,120 @@ pub fn count_characters(input: &str) -> String {
     } else {
         return format!("{} / 16", num_chars);
     }
+}
+
+
+
+#[wasm_bindgen]
+pub fn generate_password(password_length: usize, add_special_char: bool, add_number: bool,
+ capitalize_first_letter: bool) -> String {
+    let special_chars = vec!['!', '@', '#', '$', '%', '&', '*', '(', ')', '-', '+'];
+    let mut rng = rand::thread_rng();
+    let mut password = String::new();
+
+   
+   let structures = vec![
+        (12, vec![vec![4, 8],vec![6, 6],vec![5, 7] ,vec![7, 5] ]),
+        (13, vec![vec![5, 8],vec![7, 6], vec![7, 6], vec![8, 5] ]),
+        (14, vec![vec![6, 8], vec![7, 7] , vec![8, 6]
+           , vec![3, 3, 8] ]),
+        (15, vec![vec![7, 8] ,vec![8, 7]
+           , vec![3, 4, 8], vec![3, 5, 7], vec![4, 3, 8] ,vec![4, 4, 7] ,vec![5, 3, 7] ]),
+        (16, vec![vec![8, 8]
+           , vec![3, 5, 8], vec![3, 6, 7],  vec![4, 4, 8] ,vec![4, 5, 7], vec![5, 3, 8] 
+           , vec![5, 4, 7], vec![6, 3, 7] ]),
+        (17, vec![vec![3, 6, 8]  ,vec![3, 7, 7] ,vec![4, 5, 8] ,vec![4, 6, 7],vec![5, 4, 8] 
+           , vec![5, 5, 7], vec![6, 3, 8] ,vec![6, 4, 7] ,vec![7, 3, 7] ]),
+        (18, vec![vec![3, 7, 8] ,vec![3, 8, 7]  ,vec![4, 6, 8] ,vec![4, 7, 7]
+           , vec![5, 5, 8] ,vec![5, 6, 7]  ,vec![6, 4, 8] ,vec![6, 5, 7]
+           , vec![7, 3, 8] ,vec![7, 4, 7]  ,vec![8, 3, 7] ]),
+        (19, vec![vec![4, 7, 8] ,vec![4, 8, 7]  ,vec![5, 6, 8] ,vec![5, 7, 7]
+           , vec![6, 5, 8] ,vec![6, 6, 7]  ,vec![7, 4, 8] ,vec![7, 5, 7]
+           , vec![8, 3, 8] ,vec![8, 4, 7] ]),
+        (20, vec![vec![4, 8, 8] ,vec![5, 7, 8]  ,vec![5, 8, 7] ,vec![6, 6, 8]
+           , vec![6, 7, 7] ,vec![7, 5, 8]  ,vec![7, 6, 7] ,vec![8, 4, 8] ,vec![8, 5, 7] ]),
+    ];
+
+
+    let additional_chars_per_word = (add_special_char as usize) + (add_number as usize);
+
+
+    if let Some((_, combinations)) = structures.iter().find(|&&(len, _)| len == password_length) {
+        if let Some(word_lengths) = combinations.choose(&mut rng) {
+            let total_additional_chars = additional_chars_per_word * word_lengths.len();
+            let available_chars_for_words = password_length - total_additional_chars;
+            
+
+            let mut adjusted_word_lengths = word_lengths.clone();
+                let mut remaining_chars = available_chars_for_words;
+
+  
+                let mut chars_to_subtract = 0;
+                if add_special_char && add_number {
+                    // Subtract 2 characters for 2-word passwords, 4 for 3-word passwords
+                    chars_to_subtract = if word_lengths.len() == 2 { 2 } else { 4 };
+                } else if add_special_char || add_number {
+                    // Subtract 1 character for 2-word passwords, 2 for 3-word passwords
+                    chars_to_subtract = if word_lengths.len() == 2 { 1 } else { 2 };
+                }
+
+                // Calculate the length of the slice to iterate over
+                let slice_length = adjusted_word_lengths.len() - 1;
+
+                // Distribute the available characters across the words, except for the last word
+                for word_length in &mut adjusted_word_lengths[..slice_length] {
+                    if *word_length > remaining_chars {
+                        *word_length = remaining_chars;
+                    }
+                    remaining_chars = remaining_chars.saturating_sub(*word_length);
+                }
+
+    if chars_to_subtract > 0 {
+        let last_word_length = adjusted_word_lengths.last_mut().unwrap();
+        *last_word_length = last_word_length.saturating_sub(chars_to_subtract);
+    }
+
+
+                for (index, &length) in adjusted_word_lengths.iter().enumerate() {
+                if let Some(word_list) = all_len(length, Lang::En) {
+                    let mut word = word_list[rng.gen_range(0..word_list.len())].to_string();
+                    // Capitalize the first letter if enabled
+                    if capitalize_first_letter {
+                        word = word.chars().next().unwrap().to_uppercase().to_string() + &word[1..];
+                    }
+                    // password.push_str(&word);
+
+                    let mut chars_to_add = Vec::new();
+
+                    // Add a special character if enabled
+                    if add_special_char && index != adjusted_word_lengths.len() - 1 {
+                        let special_char = special_chars[rng.gen_range(0..special_chars.len())];
+                        chars_to_add.push(special_char);
+                    }
+
+                    // Add a number if enabled
+                    if add_number && index != adjusted_word_lengths.len() - 1 {
+                        let number = rng.gen_range(0..10).to_string();
+                        chars_to_add.push(number.chars().next().unwrap());
+                    }
+
+                    // Shuffle the characters to add them in random order
+                    chars_to_add.shuffle(&mut rng);
+
+                    // Append the shuffled characters to the word
+                    for c in chars_to_add {
+                        word.push(c);
+                    }
+
+                    // Append the word to the password
+                    password.push_str(&word);
+
+                    
+                }
+            }
+        }
+    }
+
+    password
 }
 

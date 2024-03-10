@@ -10,7 +10,7 @@ const drawerStore = getDrawerStore();
 
 
 	const links = [
-		{ route: '/', name: 'Encrypt / Decrypt' },
+		{ route: '/', name: 'Home' },
 		{ route: '/about', name: 'About' },
 		{ route: '/qrcode', name: 'QR code Generator' }
 	];
@@ -29,7 +29,7 @@ const drawerStore = getDrawerStore();
 	<Drawer position="left">
 		<span slot="close">X</span>
 		{#if $drawerStore.id === 'example-1'}
-		<a href="/" on:click={() => drawerStore.close()}> <br> &nbsp;&nbsp Encrypt / Decrypt</a>
+		<a href="/" on:click={() => drawerStore.close()}> <br> &nbsp;&nbsp Home</a>
 		<a href="/qrcode"on:click={() => drawerStore.close()}> <br>&nbsp;&nbsp QR Code Generator</a>
 		<a href="/about"on:click={() => drawerStore.close()}> <br>&nbsp;&nbsp About</a>
 		{/if}

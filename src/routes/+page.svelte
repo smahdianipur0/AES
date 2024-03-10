@@ -7,13 +7,20 @@
 
   //Title
   import { title } from '$lib/titleStore';
-  title.set('Encrypt / Decrypt');
+  title.set('Home');
 
 
   //Rust Functions
-  import { encrypt }         from "$lib/pkg/rust_lib";
-  import { decrypt }         from "$lib/pkg/rust_lib";
-  import { count_characters} from "$lib/pkg/rust_lib";
+  import { encrypt }           from "$lib/pkg/rust_lib";
+  import { decrypt }           from "$lib/pkg/rust_lib";
+  import { count_characters }  from "$lib/pkg/rust_lib";
+  import { generate_password } from "$lib/pkg/rust_lib";
+
+  let password_length = 16
+  let add_special_char = true  
+  let add_number = true
+  let capitalize_first_letter = true
+  
 
   let Key = '';
   let IV = '';
@@ -24,10 +31,14 @@
   let result_e = '';
   let result_d = '';
 
+  $: password = generate_password(password_length,add_special_char,add_number,capitalize_first_letter);
   $: result_e = encrypt(Key,IV,plain_text);
   $: result_d = decrypt(Key,IV,cipher_text);
   $: Key_count = count_characters(Key);
   $: IV_count = count_characters(IV);
+
+
+
 
   function isValid_e(result_e: string) {
     return (
@@ -43,6 +54,14 @@
       result_d !== "Invalid Credentials"&&
       result_d !== ""
     )}
+
+
+ //password picker
+  import { RangeSlider } from '@skeletonlabs/skeleton';
+  import { SlideToggle } from '@skeletonlabs/skeleton';
+  let min = 12;
+  let value = 16;
+  let max = 20;
 
 
  //Tab
@@ -85,8 +104,56 @@
 
 <svelte:head>{@html '<script>(' + autoModeWatcher.toString() + ')();</script>'}</svelte:head>
 
-
+<Toast/>
 <div  style="display: grid; justify-content: center;">
+
+<div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px; ">
+
+<div class="container">
+
+    <RangeSlider name="range-slider" bind:value={password_length} min={12} max={20} step={1} ticked>
+      <div class="flex justify-between items-center">
+        <div>Password Length</div>
+        <div class="text-xs">{password_length}</div>
+      </div>
+    </RangeSlider>
+
+      <br>
+
+    <label class="flex items-center space-x-2">
+    <input class="checkbox" type="checkbox"  bind:checked={capitalize_first_letter} />
+    <p>capitalize</p>
+    </label>
+
+    <label class="flex items-center space-x-2">
+    <input class="checkbox" type="checkbox"  bind:checked={add_number} />
+    <p>Number</p>
+
+    </label>
+    <label class="flex items-center space-x-2">
+    <input class="checkbox" type="checkbox"  bind:checked={add_special_char} />
+    <p>Special Characters</p>
+    </label>
+
+
+
+
+
+<div class="password-container">
+  <textarea class="textareap m-1 textarea-style-readonly" rows="1" 
+    bind:value={password} title="Input (readonly)" readonly tabindex="-1"></textarea>
+  <div class="btn-group variant-glass-primary m-2">
+      <button type="button" use:clipboard={password} on:click={() => toastStore.trigger(t)}
+        >Copy</button>
+ </div>       
+</div>
+
+
+  
+</div>
+</div>
+  
+
 <div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px; ">
 
 <div class="container">
@@ -97,6 +164,8 @@
     {/if}
   </span>
 </div>
+
+
   
 
 <div class="container">
@@ -114,7 +183,7 @@
 
 
 <div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px; ">
-<Toast/>
+
 <TabGroup justify="justify-center">
   <Tab bind:group={tabSet} name="Encrypt" value={1}>
   Encrypt </Tab>
@@ -200,11 +269,29 @@
 
 <style>
 
+.password-container {
+  display: flex;
+  justify-content: space-between; /* Aligns children to the start and end of the container */
+  align-items: center; /* Centers children vertically */
+}
 
+.textarea {
+  flex-grow: 1; /* Allows the textarea to grow and fill available space */
+  margin-right: 0.5rem; /* Adds a small space between the textarea and the button */
+}
+
+.textareap {
+  flex-grow: 1; /* Allows the textarea to grow and fill available space */
+  margin-right: 0.5rem; /* Adds a small space between the textarea and the button */
+  max-width: 65%;
+  border-color: #1f1f29 ;
+  border-radius:8px
+
+}
 
  .container {
     position: relative;
-    width: 300px;
+
   }
   .input-style {
     width: calc(100% - 1px);

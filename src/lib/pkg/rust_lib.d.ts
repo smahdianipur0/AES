@@ -24,3 +24,11 @@ export function decrypt(_keyd: string, _ivd: string, _ctd_: string): string;
 * @returns {string}
 */
 export function count_characters(input: string): string;
+/**
+* @param {number} password_length
+* @param {boolean} add_special_char
+* @param {boolean} add_number
+* @param {boolean} capitalize_first_letter
+* @returns {string}
+*/
+export function generate_password(password_length: number, add_special_char: boolean, add_number: boolean, capitalize_first_letter: boolean): string;
