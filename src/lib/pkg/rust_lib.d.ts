@@ -41,4 +41,9 @@ export function guessable(password: string): string;
 * @param {string} password
 * @returns {string}
 */
-export function calculate_entropy(password: string): string;
+export function calculate_password_strength(password: string): string;
+/**
+* @param {string} password
+* @returns {string}
+*/
+export function calculate_password_strength2(password: string): string;

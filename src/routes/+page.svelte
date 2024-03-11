@@ -11,12 +11,13 @@
 
 
   //Rust Functions
-  import { encrypt }           from "$lib/pkg/rust_lib";
-  import { decrypt }           from "$lib/pkg/rust_lib";
-  import { count_characters }  from "$lib/pkg/rust_lib";
-  import { generate_password } from "$lib/pkg/rust_lib";
-  import { calculate_entropy } from "$lib/pkg/rust_lib";
-  import { guessable }         from "$lib/pkg/rust_lib";
+  import { encrypt }                      from "$lib/pkg/rust_lib";
+  import { decrypt }                      from "$lib/pkg/rust_lib";
+  import { count_characters }             from "$lib/pkg/rust_lib";
+  import { generate_password }            from "$lib/pkg/rust_lib";
+  import { calculate_password_strength }  from "$lib/pkg/rust_lib";
+  import { calculate_password_strength2 } from "$lib/pkg/rust_lib";
+  import { guessable }                    from "$lib/pkg/rust_lib";
 
   let password_length = 16
   let add_special_char = true  
@@ -34,8 +35,10 @@
   
 
 
-  $: entropy = calculate_entropy(password);
+  
   $: guess = guessable(password);
+  $: strength = calculate_password_strength(password);
+  $: strength2 = calculate_password_strength2(password);
 
   let Key = '';
   $: Key_count = count_characters(Key);
@@ -44,14 +47,14 @@
   $: IV_count = count_characters(IV);
 
   let plain_text = '';
-  let manualEntry_plain = true; 
+  let auto_plain = false; 
 
   
 
-  $: if (manualEntry_plain) {
-  plain_text = ''; 
+  $: if (auto_plain) {
+  plain_text = password; 
   } else {
-    plain_text = password;
+    plain_text = '';
   }
 
 
@@ -174,7 +177,7 @@
 </div>
  
 <br>
- <title>Check Password</title>
+ 
 <p style = "font-weight: bold; font-size: 18px;">&nbsp &nbsp Check Password</p>
 
 <div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px; ">
@@ -189,14 +192,15 @@
 </div>
 {/if}
 <br>
-  
-  <p>&nbsp{guess}</p>
-  <p>&nbsp{entropy}</p>
-
+  {#if password }
+    <p style = " font-size: 14px;" >{guess}</p>
+    <p style = " font-size: 14px;">{strength}</p>
+    <p style = " font-size: 14px;">{strength2}</p>
+  {/if}
 </div>
 <br>
 
- <title>Encryption and Decryption </title>
+
 <p style = "font-weight: bold; font-size: 18px;">&nbsp &nbsp Encryption and Decryption</p>
 
 <div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px; ">
@@ -241,10 +245,10 @@
   {#if tabSet === 1}
 
  <label class="flex items-center space-x-2">
-    <input class="checkbox" type="checkbox"  bind:checked={manualEntry_plain} />
-    <p>Manual</p>
+    <input class="checkbox" type="checkbox"  bind:checked={auto_plain} />
+    <p>Use Password</p>
     </label>
-{#if manualEntry_plain == true}
+{#if auto_plain == false}
 <form class="form-container">
   <textarea class="textarea m-2 shadow-xl textarea-style" rows="2"
     id="text_0" bind:value={plain_text} placeholder="Plain Text"></textarea>

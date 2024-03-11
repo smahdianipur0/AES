@@ -33,6 +33,12 @@
 		Rust and WebAssembly tutorial : <a class="anchor" href="https://www.youtube.com/channel/UC2S3Qt_thQx0vk6zDaE8Lqw">SvelteRust</a>
 		<br>
 		icon : <a class="anchor" href="https://iconscout.com/contributors/ncrte3d">Naufal Imaanullah</a>
+		<br>
+		realistic password strength estimation : <a class="anchor" href="https://dropbox.tech/security/zxcvbn-realistic-password-strength-estimation">zxcvbn</a>
+		<br>
+		Entropy Calculator : <a class="anchor" href="https://github.com/dewan-ahmed/PassMeRust/tree/main">dewan-ahmed</a>
+		<br>
+		
 		</span>
 		
 	</span>

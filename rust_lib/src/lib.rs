@@ -200,7 +200,7 @@ pub fn generate_password(password_length: usize, add_special_char: bool, add_num
 
 #[wasm_bindgen]
 pub fn guessable(password: &str) -> String {
-    
+
 if password.trim().chars ().count () == 0 { 
          let errmsg:String  = "Enter password".to_string();
          return errmsg;
@@ -219,35 +219,37 @@ if password.trim().chars ().count () == 0 {
 }
 
 #[wasm_bindgen]
-pub fn calculate_entropy(password: &str) -> String  {
-
-if password.trim().chars ().count () == 0 { 
-         let errmsg:String  = "Enter password".to_string();
-         return errmsg;
+pub fn calculate_password_strength(password: &str) -> String {
+    match zxcvbn::zxcvbn(password, &[]) {
+        Ok(entropy) => {
+            // Return the formatted string for offline slow hashing crack time
+            format!(
+                 "Slow hashing (1e4/s): {}",
+                entropy.crack_times().offline_slow_hashing_1e4_per_second(),
+                
+            )
+        },
+        Err(e) => {
+            // Return the error as a string
+            e.to_string()
+        }
     }
-    let mut charset = 0u32;
+}
 
-    if password.bytes().any(|byte| byte >= b'0' && byte <= b'9') {
-        charset += 10;  // Numbers
-    }
-    if password.bytes().any(|byte| byte >= b'a' && byte <= b'z') {
-        charset += 26;  // Lowercase letters
-    }
-    if password.bytes().any(|byte| byte >= b'A' && byte <= b'Z') {
-        charset += 26;  // Uppercase letters
-    }
-    if password.bytes().any(|byte| byte < b'0' || (byte > b'9' && byte < b'A') || (byte > b'Z' && byte < b'a') || byte > b'z') {
-        charset += 33;  // Special characters, rough estimation
-    }
-
-
-    let length = password.len();
-    let entropy = length as f64 * (charset as f64).log2();
-
- match entropy {
-        e if e < 35.0 => "Weak".to_string(),
-        e if e < 59.0 => "Moderate".to_string(),
-        e if e < 119.0 => "Strong".to_string(),
-        _ => "Very Strong".to_string(),
+#[wasm_bindgen]
+pub fn calculate_password_strength2(password: &str) -> String {
+    match zxcvbn::zxcvbn(password, &[]) {
+        Ok(entropy) => {
+            // Return the formatted string for offline slow hashing crack time
+            format!(
+                 "Fast hashing (1e10/s): {}",
+                
+                entropy.crack_times().offline_fast_hashing_1e10_per_second()
+            )
+        },
+        Err(e) => {
+            // Return the error as a string
+            e.to_string()
+        }
     }
 }
