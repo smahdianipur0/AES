@@ -183,7 +183,7 @@
  
 <p style = "font-weight: bold; font-size: 18px;">&nbsp &nbsp Check Password</p>
 
-<div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px; ">
+<div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px;">
 
   <label class="flex items-center space-x-2">
     <input class="checkbox" type="checkbox"  bind:checked={manualEntry} />
@@ -251,6 +251,7 @@
     <input class="checkbox" type="checkbox"  bind:checked={auto_plain} />
     <p>Use Password</p>
     </label>
+    <br>
 {#if auto_plain == false}
 <form class="form-container">
   <textarea class="textarea m-2 shadow-xl textarea-style" rows="2"
@@ -325,6 +326,28 @@
 
 
 <style>
+
+  .card {
+  /* Adjust the color and opacity to your preference for the frosted glass look */
+  background: rgba(1, 1, 1, 0.3);
+  backdrop-filter: blur(30px);
+  /* For cross-browser compatibility */
+  -webkit-backdrop-filter: blur(30px);
+  /* Optional: Add some padding and border-radius for better aesthetics */
+  padding: 16px;
+  border-radius: 8px;
+  /* Optional: Add a box-shadow for depth */
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(13.3px);
+-webkit-backdrop-filter: blur(13.3px);
+border: 1px solid rgba(255, 255, 255, 0.05);
+
+
+
+
+
+
+}
 
 .password-container {
   display: flex;

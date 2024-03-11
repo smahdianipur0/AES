@@ -209,11 +209,11 @@ if password.trim().chars ().count () == 0 {
     let score = estimate.score();
 
     match score {
-        e if e == 0 => "too guessable".to_string(),
-        e if e == 1 => "very guessable".to_string(),
-        e if e == 2 => "somewhat guessable".to_string(),
-        e if e == 3 => "safely unguessable".to_string(), 
-        _  => "very unguessable".to_string(), 
+        e if e == 0 => "Too Guessable".to_string(),
+        e if e == 1 => "Very Guessable".to_string(),
+        e if e == 2 => "Somewhat Guessable".to_string(),
+        e if e == 3 => "Safely Unguessable".to_string(), 
+        _  => "Very Unguessable".to_string(), 
     }
 
 }
