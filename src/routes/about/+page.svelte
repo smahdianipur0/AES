@@ -36,9 +36,7 @@
 		<br>
 		realistic password strength estimation : <a class="anchor" href="https://dropbox.tech/security/zxcvbn-realistic-password-strength-estimation">zxcvbn</a>
 		<br>
-		Entropy Calculator : <a class="anchor" href="https://github.com/dewan-ahmed/PassMeRust/tree/main">dewan-ahmed</a>
-		<br>
-		
+				
 		</span>
 		
 	</span>
