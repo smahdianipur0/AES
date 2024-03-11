@@ -10,7 +10,9 @@
  	 title.set('About');
 </script>
 
-
+<br>
+<br>
+<br>
 <svelte:head>
 	<title>About</title>
 	<meta name="description" content="About Page" />
@@ -30,6 +32,7 @@
 		<br>
 		UI toolkit : <a class="anchor" href="https://www.skeleton.dev/">Skeleton</a>
 		<br>
+  
 		Rust and WebAssembly tutorial : <a class="anchor" href="https://www.youtube.com/channel/UC2S3Qt_thQx0vk6zDaE8Lqw">SvelteRust</a>
 		<br>
 		icon : <a class="anchor" href="https://iconscout.com/contributors/ncrte3d">Naufal Imaanullah</a>

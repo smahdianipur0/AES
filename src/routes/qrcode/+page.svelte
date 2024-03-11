@@ -21,7 +21,9 @@ import { title } from '$lib/titleStore';
 <svelte:head>{@html '<script>(' + autoModeWatcher.toString() + ')();</script>'}</svelte:head>
 
 
-
+<br>
+<br>
+<br>
 
 <div style="display: grid; justify-content: center;">
 <div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px; ">

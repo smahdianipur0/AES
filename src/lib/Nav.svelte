@@ -6,6 +6,9 @@ import { Drawer, getDrawerStore } from '@skeletonlabs/skeleton';
 import { initializeStores } from '@skeletonlabs/skeleton';
 
 initializeStores();
+
+
+
 const drawerStore = getDrawerStore();
 
 
@@ -45,10 +48,10 @@ const drawerStore = getDrawerStore();
   </button>
 
   <span style="flex-grow: 1; text-align: center; display: block; font-weight: bold; font-size: 22px;"
-    class="bg-gradient-to-br from-cyan-500 to-purple-700 bg-clip-text 
+    class="bg-gradient-to-br from-white to-gray bg-clip-text 
     text-transparent box-decoration-clone">{$title}</span>
 
-  <title></title>
+  
 
 </nav>
 
@@ -57,11 +60,20 @@ const drawerStore = getDrawerStore();
 <style>
 
 	nav {
+		position: fixed; 
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    z-index: 1000; 
+    display: flex;
+ 	  justify-content: space-between;
+ 		align-items: center;
 		display: flex;
 		align-items: center;
 		height: 60px;
 		width: 100%;
 		padding: 0 32px;
+		background: linear-gradient(to bottom, rgba(10,10,10,1) 0%, rgba(0,0,0,0) 100%)
 		}
 
 	div {
@@ -70,6 +82,7 @@ const drawerStore = getDrawerStore();
   background-color: white;
   margin: 3px 0;
 }
+
 
 
 

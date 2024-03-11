@@ -123,6 +123,9 @@
 <svelte:head>{@html '<script>(' + autoModeWatcher.toString() + ')();</script>'}</svelte:head>
 
 <Toast/>
+<br>
+<br>
+<br>
 <div  style="display: grid; justify-content: center;">
 
 <title>Generate Password</title>
