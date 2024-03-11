@@ -271,18 +271,18 @@
 
 .password-container {
   display: flex;
-  justify-content: space-between; /* Aligns children to the start and end of the container */
-  align-items: center; /* Centers children vertically */
+  justify-content: space-between; 
+  align-items: center; 
 }
 
 .textarea {
-  flex-grow: 1; /* Allows the textarea to grow and fill available space */
-  margin-right: 0.5rem; /* Adds a small space between the textarea and the button */
+  flex-grow: 1; 
+  margin-right: 0.5rem; 
 }
 
 .textareap {
-  flex-grow: 1; /* Allows the textarea to grow and fill available space */
-  margin-right: 0.5rem; /* Adds a small space between the textarea and the button */
+  flex-grow: 1; 
+  margin-right: 0.5rem; 
   max-width: 65%;
   border-color: #1f1f29 ;
   border-radius:8px
@@ -333,6 +333,7 @@
 
    .input.m-1:not(:focus) {
   border-color: #1f1f29 !important; 
+  max-width: 97%;
 }
  
  .textarea.m-2:not(:focus) {

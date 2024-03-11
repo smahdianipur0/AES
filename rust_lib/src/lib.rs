@@ -194,4 +194,3 @@ pub fn generate_password(password_length: usize, add_special_char: bool, add_num
 
     password
 }
-
