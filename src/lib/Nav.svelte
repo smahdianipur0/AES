@@ -44,7 +44,7 @@ const drawerStore = getDrawerStore();
     <div></div>
   </button>
 
-  <span style="flex-grow: 1; text-align: center; display: block; font-weight: bold; font-size: 18px;"
+  <span style="flex-grow: 1; text-align: center; display: block; font-weight: bold; font-size: 22px;"
     class="bg-gradient-to-br from-cyan-500 to-purple-700 bg-clip-text 
     text-transparent box-decoration-clone">{$title}</span>
 

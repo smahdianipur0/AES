@@ -1,4 +1,3 @@
 
 import { writable } from 'svelte/store';
-type TitleType = string;
-export const title = writable <TitleType>('Default Title'); 
+export const title = writable <string>('Loading...'); 

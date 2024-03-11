@@ -15,37 +15,55 @@
   import { decrypt }           from "$lib/pkg/rust_lib";
   import { count_characters }  from "$lib/pkg/rust_lib";
   import { generate_password } from "$lib/pkg/rust_lib";
+  import { calculate_entropy } from "$lib/pkg/rust_lib";
+  import { guessable }         from "$lib/pkg/rust_lib";
 
   let password_length = 16
   let add_special_char = true  
   let add_number = true
   let capitalize_first_letter = true
+
+  let manualEntry = false; 
+  let password = '';
+
+  $: if (manualEntry) {
+  password = ''; 
+  } else {
+    password = generate_password(password_length, add_special_char, add_number, capitalize_first_letter);
+  }
   
 
+
+  $: entropy = calculate_entropy(password);
+  $: guess = guessable(password);
+
   let Key = '';
-  let IV = '';
-
-  let plain_text = '';
-  let cipher_text = '';
-
-  let result_e = '';
-  let result_d = '';
-
-  $: password = generate_password(password_length,add_special_char,add_number,capitalize_first_letter);
-  $: result_e = encrypt(Key,IV,plain_text);
-  $: result_d = decrypt(Key,IV,cipher_text);
   $: Key_count = count_characters(Key);
+
+  let IV = '';
   $: IV_count = count_characters(IV);
 
+  let plain_text = '';
+  let manualEntry_plain = true; 
+
+  
+
+  $: if (manualEntry_plain) {
+  plain_text = ''; 
+  } else {
+    plain_text = password;
+  }
+
+
+  $: result_e = encrypt(Key,IV,plain_text);
+  let cipher_text = '';
+  let result_d = '';
+  $: result_d = decrypt(Key,IV,cipher_text);
+  
+  
 
 
 
-  function isValid_e(result_e: string) {
-    return (
-      result_e !== "IV is not 16 Characters" &&
-      result_e !== "Key is not 16 Characters" &&
-      result_e !== ""
-    )}
 
   function isValid(result_d: string) {
     return (
@@ -58,10 +76,7 @@
 
  //password picker
   import { RangeSlider } from '@skeletonlabs/skeleton';
-  import { SlideToggle } from '@skeletonlabs/skeleton';
-  let min = 12;
-  let value = 16;
-  let max = 20;
+ 
 
 
  //Tab
@@ -107,13 +122,17 @@
 <Toast/>
 <div  style="display: grid; justify-content: center;">
 
+<title>Generate Password</title>
+<p style = "font-weight: bold; font-size: 18px;">&nbsp &nbsp Generate Password</p>
+
 <div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px; ">
+
 
 <div class="container">
 
     <RangeSlider name="range-slider" bind:value={password_length} min={12} max={20} step={1} ticked>
       <div class="flex justify-between items-center">
-        <div>Password Length</div>
+        <div style="font-size: 16px;">Password Length</div>
         <div class="text-xs">{password_length}</div>
       </div>
     </RangeSlider>
@@ -123,16 +142,21 @@
     <label class="flex items-center space-x-2">
     <input class="checkbox" type="checkbox"  bind:checked={capitalize_first_letter} />
     <p>Capitalize</p>
-    
+    </label>
+
+
+    <label class="flex items-center space-x-2">
     <input class="checkbox" type="checkbox"  bind:checked={add_number} />
     <p>Number</p>
-
+    </label>
+    <label class="flex items-center space-x-2">
     <input class="checkbox" type="checkbox"  bind:checked={add_special_char} />
     <p>!@#$%&...</p>
     </label>
 
 
 <br>
+
 
 
 <div class="password-container">
@@ -148,7 +172,32 @@
   
 </div>
 </div>
+ 
+<br>
+ <title>Check Password</title>
+<p style = "font-weight: bold; font-size: 18px;">&nbsp &nbsp Check Password</p>
+
+<div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px; ">
+
+  <label class="flex items-center space-x-2">
+    <input class="checkbox" type="checkbox"  bind:checked={manualEntry} />
+    <p>Manual</p>
+    </label>
+{#if manualEntry == true}
+<div class="container">
+  <input class="input m-1 input-style" placeholder="password" bind:value={password} />
+</div>
+{/if}
+<br>
   
+  <p>&nbsp{guess}</p>
+  <p>&nbsp{entropy}</p>
+
+</div>
+<br>
+
+ <title>Encryption and Decryption </title>
+<p style = "font-weight: bold; font-size: 18px;">&nbsp &nbsp Encryption and Decryption</p>
 
 <div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px; ">
 
@@ -191,11 +240,16 @@
    
   {#if tabSet === 1}
 
-
+ <label class="flex items-center space-x-2">
+    <input class="checkbox" type="checkbox"  bind:checked={manualEntry_plain} />
+    <p>Manual</p>
+    </label>
+{#if manualEntry_plain == true}
 <form class="form-container">
   <textarea class="textarea m-2 shadow-xl textarea-style" rows="2"
     id="text_0" bind:value={plain_text} placeholder="Plain Text"></textarea>
 </form>
+{/if}
 
 {#if Key && IV}
   <form class="form-container">

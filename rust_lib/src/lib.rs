@@ -12,6 +12,9 @@ use rand::Rng;
 use rand::seq::IndexedRandom;
 use rand::prelude::SliceRandom;
 
+extern crate zxcvbn;
+use zxcvbn::zxcvbn;
+
 
 type AesOfb = Ofb<Aes128>;
 
@@ -193,4 +196,58 @@ pub fn generate_password(password_length: usize, add_special_char: bool, add_num
     }
 
     password
+}
+
+#[wasm_bindgen]
+pub fn guessable(password: &str) -> String {
+    
+if password.trim().chars ().count () == 0 { 
+         let errmsg:String  = "Enter password".to_string();
+         return errmsg;
+    }
+    let estimate = zxcvbn(&password, &[]).unwrap();
+    let score = estimate.score();
+
+    match score {
+        e if e == 0 => "too guessable".to_string(),
+        e if e == 1 => "very guessable".to_string(),
+        e if e == 2 => "somewhat guessable".to_string(),
+        e if e == 3 => "safely unguessable".to_string(), 
+        _  => "very unguessable".to_string(), 
+    }
+
+}
+
+#[wasm_bindgen]
+pub fn calculate_entropy(password: &str) -> String  {
+
+if password.trim().chars ().count () == 0 { 
+         let errmsg:String  = "Enter password".to_string();
+         return errmsg;
+    }
+    let mut charset = 0u32;
+
+    if password.bytes().any(|byte| byte >= b'0' && byte <= b'9') {
+        charset += 10;  // Numbers
+    }
+    if password.bytes().any(|byte| byte >= b'a' && byte <= b'z') {
+        charset += 26;  // Lowercase letters
+    }
+    if password.bytes().any(|byte| byte >= b'A' && byte <= b'Z') {
+        charset += 26;  // Uppercase letters
+    }
+    if password.bytes().any(|byte| byte < b'0' || (byte > b'9' && byte < b'A') || (byte > b'Z' && byte < b'a') || byte > b'z') {
+        charset += 33;  // Special characters, rough estimation
+    }
+
+
+    let length = password.len();
+    let entropy = length as f64 * (charset as f64).log2();
+
+ match entropy {
+        e if e < 35.0 => "Weak".to_string(),
+        e if e < 59.0 => "Moderate".to_string(),
+        e if e < 119.0 => "Strong".to_string(),
+        _ => "Very Strong".to_string(),
+    }
 }
