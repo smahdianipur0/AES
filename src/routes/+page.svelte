@@ -122,21 +122,17 @@
 
     <label class="flex items-center space-x-2">
     <input class="checkbox" type="checkbox"  bind:checked={capitalize_first_letter} />
-    <p>capitalize</p>
-    </label>
-
-    <label class="flex items-center space-x-2">
+    <p>Capitalize</p>
+    
     <input class="checkbox" type="checkbox"  bind:checked={add_number} />
     <p>Number</p>
 
-    </label>
-    <label class="flex items-center space-x-2">
     <input class="checkbox" type="checkbox"  bind:checked={add_special_char} />
-    <p>Special Characters</p>
+    <p>!@#$%&...</p>
     </label>
 
 
-
+<br>
 
 
 <div class="password-container">
@@ -176,13 +172,13 @@
     {/if}
   </span>
 </div>
-</div>
+<!-- </div> -->
 
 
+<br>
 
 
-
-<div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px; ">
+<!-- <div class="card p-4 variant-glass-surface m-2 shadow-xl" style="width: 340px; "> -->
 
 <TabGroup justify="justify-center">
   <Tab bind:group={tabSet} name="Encrypt" value={1}>
@@ -298,11 +294,13 @@
     background: rgba(7, 7, 7, 0.1);
     -webkit-backdrop-filter: blur(23px);
     backdrop-filter: blur(23px);
-    padding-right: 30px;
+
+
+    max-width: 97%;
   }
   .key-indicator {
     position: absolute;
-    right: 5px;
+    right: 17px;
     top: 50%;
     transform: translateY(-50%);
     color: #777;
